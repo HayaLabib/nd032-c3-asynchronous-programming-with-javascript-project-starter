@@ -145,6 +145,8 @@ function handleSelectPodRacer(target) {
 	// add class selected to current target
 	target.classList.add('selected')
 
+	store.player_id=target.id;
+
 	// TODO - save the selected racer to the store
 }
 
@@ -160,6 +162,7 @@ function handleSelectTrack(target) {
 	// add class selected to current target
 	target.classList.add('selected')
 
+	store.track_id=target.id;
 	// TODO - save the selected track id to the store
 	
 }
@@ -320,11 +323,43 @@ function defaultFetchOpts() {
 
 // TODO - Make a fetch call (with error handling!) to each of the following API endpoints 
 
-function getTracks() {
+async function getTracks() {
+	try{
+		const request= await fetch(`${SERVER}/api/tracks`);
+
+		if(!request.ok){
+			throw new Error ('unable to fetch');
+		}
+
+		const data= await request.json();
+
+		console.log(data);
+		
+		return data;
+	}
+	catch(err){
+		console.error(err);
+	}
 	// GET request to `${SERVER}/api/tracks`
 }
 
-function getRacers() {
+async function getRacers() {
+	try{
+		const request= await fetch(`${SERVER}/api/cars`);
+
+		if(!request.ok){
+			throw new Error ('unable to fetch');
+		}
+
+		const data= await request.json();
+
+		console.log(data);
+		
+		return data;
+	}
+	catch(err){
+		console.error(err);
+	}
 	// GET request to `${SERVER}/api/cars`
 }
 
