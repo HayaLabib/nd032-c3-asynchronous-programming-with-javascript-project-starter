@@ -96,12 +96,36 @@ async function handleCreateRace() {
 
 	// TODO - call the async function startRace
 
+	await startRace(store.race_id);
+
 	// TODO - call the async function runRace
+
+	await runRace(store.race_id);
 }
 
 function runRace(raceID) {
 	return new Promise(resolve => {
 	// TODO - use Javascript's built in setInterval method to get race info every 500ms
+	setInterval(()=>{
+		try{
+			fetch(`${SERVER}/api/races/${raceID}`)
+			.then(res=>res.json)
+			.then(res=>{
+				if(res.status=='in-progress'){
+					renderAt('#leaderBoard', raceProgress(res.positions))
+				}
+				else if(res.status=='finished'){
+					clearInterval(raceInterval)
+					renderAt('#race', resultsView(res.positions))
+					resolve(res)
+				}
+			})
+			.catch(err=>console.log(err))
+		}
+		catch(err){
+			console.error(err);
+		}
+	},500)
 
 	/* 
 		TODO - if the race info status property is "in-progress", update the leaderboard by calling:
