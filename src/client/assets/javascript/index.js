@@ -106,7 +106,7 @@ async function handleCreateRace() {
 function runRace(raceID) {
 	return new Promise(resolve => {
 	// TODO - use Javascript's built in setInterval method to get race info every 500ms
-	setInterval(()=>{
+	const raceInterval= setInterval(()=>{
 		try{
 			fetch(`${SERVER}/api/races/${raceID}`)
 			.then(res=>res.json)
