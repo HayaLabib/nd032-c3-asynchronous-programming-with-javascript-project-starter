@@ -75,12 +75,15 @@ async function delay(ms) {
 // This async function controls the flow of the race, add the logic and error handling
 async function handleCreateRace() {
 	// render starting UI
-	renderAt('#race', renderRaceStartView())
-
-	// TODO - Get player_id and track_id from the store
 
 	const player_id= store.player_id;
 	const track_id= store.track_id;
+
+	renderAt('#race', renderRaceStartView(track_id,player_id))
+
+	// TODO - Get player_id and track_id from the store
+
+	
 	
 	// const race = TODO - invoke the API call to create the race, then save the result
 	const race= await createRace(player_id,track_id);
@@ -109,7 +112,7 @@ function runRace(raceID) {
 	const raceInterval= setInterval(()=>{
 		try{
 			fetch(`${SERVER}/api/races/${raceID}`)
-			.then(res=>res.json)
+			.then(res=>res.json())
 			.then(res=>{
 				if(res.status=='in-progress'){
 					renderAt('#leaderBoard', raceProgress(res.positions))
